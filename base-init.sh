@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 main() {
-  sudo apt-get install -y nano
+  sudo yum install -y nano
 }
 
 main

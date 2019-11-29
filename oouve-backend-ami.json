@@ -1,9 +1,10 @@
 {
   "variables" : {
-    "vpc": "{{env `BUILD_VPC_ID`}}",
-    "subnet": "{{env `BUILD_SUBNET_ID`}}",
-    "aws_region": "{{env `AWS_REGION`}}",
-    "ami_name": "oouve-prod-amzn-{{isotime \"02-Jan-06 03_04_05\"}}"
+    "vpc"        : "{{env `BUILD_VPC_ID`}}",
+    "subnet"     : "{{env `BUILD_SUBNET_ID`}}",
+    "aws_region" : "{{env `AWS_REGION`}}",
+    "ami_name"   : "oouve-prod-amzn-{{isotime \"02-Jan-06 03_04_05\"}}",
+    "source_ami" : "ami-00068cd7555f543d5"
   },
 
   "builders" : [{
@@ -13,19 +14,20 @@
     "subnet_id" : "{{user `subnet`}}",
     "ami_name"  : "{{user `ami_name`}}",
     "type"      : "amazon-ebs",
-    "ssh_username": "ec2-user",
     "instance_type": "t2.micro",
-    "source_ami_filter": {
-      "filters" : {
-        "virtualization-type": "hvm",
-        "name"  : "amzn-ami-hvm-2019.*-gp2",
-        "root-device-type"   : "ebs"
-      },
-      "owners" : ["883208102877"],
-      "most_recent": true
-    },
+    "source_ami" : "{{user `source_ami`}}",
     "associate_public_ip_address": "true",
+    "ssh_username": "ec2-user",
     "tags": {
+      "Name": "{{user `ami_name`}}"
+    },
+    "run_tags": {
+      "Name": "{{user `ami_name`}}"
+    },
+    "run_volume_tags": {
+      "Name": "{{user `ami_name`}}"
+    },
+    "snapshot_tags": {
       "Name": "{{user `ami_name`}}"
     }
   }],
